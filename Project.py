@@ -2,7 +2,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('banking_data.csv')
+df = pd.read_csv(r'Banking_DS_Project\banking_data.csv')
 #Distribution of age among clients
 # print(df['age'].unique())
 sns.set_style('whitegrid')
@@ -63,12 +63,12 @@ print("Percentage of clients who are in default are: ",dY,'%')
 print("The total number of clients in default are: ",df['default'].value_counts().get('yes'))
 print()
 #f) Check Again
-plt.figure(figsize=(10, 6))
-sns.histplot(df['balance'], bins=30, kde=True)  # kde=True adds a density curve
-plt.xlabel("Average Yearly Balance")
-plt.ylabel("Number of Clients")
-plt.title("Distribution of Average Yearly Balance Among Clients")
-plt.show()
+# plt.figure(figsize=(10, 6))
+# sns.histplot(df['balance'], bins=30, kde=True)  # kde=True adds a density curve
+# plt.xlabel("Average Yearly Balance")
+# plt.ylabel("Number of Clients")
+# plt.title("Distribution of Average Yearly Balance Among Clients")
+# plt.show()
 #G)
 print('Part G')
 print("Total Number of Clients having Housing Loan: ",df['housing'].value_counts().get('yes'))
@@ -103,12 +103,12 @@ print()
 # plt.title('')
 
 #Part K
-plt.figure(figsize=(12, 8))
-sns.countplot(x = df['day'])
-plt.xlabel("Last Contact Day of the Month")
-plt.ylabel("Number of Clients Contacted")
-plt.title("Distribution of Last Contact Day Across Different Months")
-plt.show()
+# plt.figure(figsize=(12, 8))
+# sns.countplot(x = df['day'])
+# plt.xlabel("Last Contact Day of the Month")
+# plt.ylabel("Number of Clients Contacted")
+# plt.title("Distribution of Last Contact Day Across Different Months")
+# plt.show()
 #Part L
 # plt.figure(figsize=(12, 8))
 # sns.countplot(x = df['month'])
@@ -116,13 +116,46 @@ plt.show()
 # plt.ylabel("Number of Clients Contacted")
 # plt.title("Distribution of Last Contact Month")
 # plt.show()
-months = ('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
-numCM = []
-for i in months:
-    numCM.append(df['month'].value_counts().get(i.lower()))
-plt.figure(figsize=(12,8))
-sns.barplot(x=months,y=numCM)
-plt.xlabel("Last Contact Month")
-plt.ylabel("Number of Clients Contacted")
-plt.title("Distribution of Last Contact Month")
+
+# months = ('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
+# numCM = []
+# for i in months:
+#     numCM.append(df['month'].value_counts().get(i.lower()))
+# plt.figure(figsize=(12,8))
+# sns.barplot(x=months,y=numCM)
+# plt.xlabel("Last Contact Month")
+# plt.ylabel("Number of Clients Contacted")
+# plt.title("Distribution of Last Contact Month")
+# plt.show()
+#Next Part
+#print("The below data can be extracted from the duration of contact:")
+#print(df['duration'].describe())
+# plt.figure(figsize=(12,8))
+# sns.kdeplot(df['duration'],shade=True)
+# plt.xlabel('Duration of Contact(seconds)')
+# plt.ylabel('Density')
+# plt.title('Distribution of Duration of Contact')
+# plt.show()
+#Next Part
+# print(df['campaign'].describe())
+# times_contacted =  df['campaign'].value_counts().sort_index()
+# print(times_contacted)
+
+# plt.figure(figsize=(10,5))
+# sns.histplot(df['campaign'], bins=15, kde=True)
+# plt.xlabel("Number of Contacts")
+# plt.ylabel("Number of Clients")
+# plt.title("Distribution of Contacts per Client")
+# plt.show()
+
+#Next Part
+filtered_acc_pdays = df[df['pdays'] != -1]  #To Remove -1 values
+filteredDays= filtered_acc_pdays['pdays']
+print(filteredDays.describe())
+# print(filteredDays.unique())
+plt.figure(figsize=(10,5))
+sns.histplot(filteredDays, bins=15, kde=True)
+plt.xlabel("Number of Days Passed Since Client was Last Contacted since Previous Campaign")
+plt.ylabel("Number of Clients")
+plt.title("Distribution of Number of Days Passed since Client Was Last Contacted")
 plt.show()
