@@ -1,12 +1,13 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+from sklearn.preprocessing import StandardScaler
+import numpy as np
 df = pd.read_csv(r'Banking_DS_Project\banking_data.csv')
 #Distribution of age among clients
 # print(df['age'].unique())
 sns.set_style('whitegrid')
-
+pd.set_option('future.no_silent_downcasting', True)
 #a) Style 1
 #age_counts = df['age'].value_counts().sort_index()
 
@@ -184,3 +185,26 @@ print('Percentage of people not subscribing to a term deposit : ',tdno)
 ####Last Part
 print(df.columns)
 print(df.dtypes)
+#One Hot Encoding
+df = pd.get_dummies(df, columns=['job', 'marital', 'marital_status', 'education', 'month', 'contact', 'poutcome'], drop_first=True)
+df[df.select_dtypes(include='bool').columns] = df.select_dtypes(include='bool').astype(int)
+#Classification
+df['y'] = df['y'].map({'yes': 1, 'no': -1}).astype(int)
+df[['housing', 'loan', 'default']] = df[['housing', 'loan', 'default']].applymap(lambda x: 1 if x == 'yes' else 0).astype(int)
+#Normalisation
+scaler = StandardScaler()
+df[['age', 'balance','duration','campaign','previous']] = scaler.fit_transform(df[['age', 'balance','duration','campaign','previous']])
+df.loc[df['pdays'] != -1, 'pdays_normalized'] = scaler.fit_transform(df.loc[df['pdays'] != -1, ['pdays']])
+
+print(df.columns)
+print(df.dtypes)
+df.select_dtypes(include=[np.number]).corr().to_csv("correlation_matrix.csv")
+# plt.figure(figsize=(12, 8))
+# sns.heatmap(df.select_dtypes(include=[np.number]).corr(), annot=True, cmap='coolwarm', fmt=".2f")
+# plt.show()
+
+
+correlation_with_y = df.select_dtypes(include=[np.number]).corr()['y'].drop('y')
+correlation_with_y.sort_values().plot(kind='barh', figsize=(8, 6), cmap='coolwarm')
+plt.title("Correlation of Features with Target (y)")
+plt.show()
