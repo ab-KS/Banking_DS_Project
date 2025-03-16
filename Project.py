@@ -57,11 +57,11 @@ sns.set_style('whitegrid')
 # plt.show()
 
 #e)
-print("Part E")
-dY = df['default'].value_counts(normalize=True).get('yes') *100
-print("Percentage of clients who are in default are: ",dY,'%')
-print("The total number of clients in default are: ",df['default'].value_counts().get('yes'))
-print()
+# print("Part E")
+# dY = df['default'].value_counts(normalize=True).get('yes') *100
+# print("Percentage of clients who are in default are: ",dY,'%')
+# print("The total number of clients in default are: ",df['default'].value_counts().get('yes'))
+# print()
 #f) Check Again
 # plt.figure(figsize=(10, 6))
 # sns.histplot(df['balance'], bins=30, kde=True)  # kde=True adds a density curve
@@ -70,20 +70,20 @@ print()
 # plt.title("Distribution of Average Yearly Balance Among Clients")
 # plt.show()
 #G)
-print('Part G')
-print("Total Number of Clients having Housing Loan: ",df['housing'].value_counts().get('yes'))
-print()
+# print('Part G')
+# print("Total Number of Clients having Housing Loan: ",df['housing'].value_counts().get('yes'))
+# print()
 #H)
-print('Part H')
-print("Total Number of Clients having Personal Loan: ",df['loan'].value_counts().get('yes'))
-print()
+# print('Part H')
+# print("Total Number of Clients having Personal Loan: ",df['loan'].value_counts().get('yes'))
+# print()
 #I)
-print("Part I")
-print("The different types of communication modes are:")
-for i in df['contact'].unique():
-    if(i!='unknown'):
-        print(i.capitalize())
-print()
+# print("Part I")
+# print("The different types of communication modes are:")
+# for i in df['contact'].unique():
+#     if(i!='unknown'):
+#         print(i.capitalize())
+# print()
 #J)
 #May-2008 -- Nov-2010; Feb passed in 2008 so no leap year needs to be considered
 # last_days = (31,28,31,30,31,30,31,31,30,31,30,31)
@@ -149,13 +149,38 @@ print()
 # plt.show()
 
 #Next Part
-filtered_acc_pdays = df[df['pdays'] != -1]  #To Remove -1 values
-filteredDays= filtered_acc_pdays['pdays']
-print(filteredDays.describe())
+# filtered_acc_pdays = df[df['pdays'] != -1]  #To Remove -1 values
+# filteredDays= filtered_acc_pdays['pdays']
+# print(filteredDays.describe())
 # print(filteredDays.unique())
-plt.figure(figsize=(10,5))
-sns.histplot(filteredDays, bins=15, kde=True)
-plt.xlabel("Number of Days Passed Since Client was Last Contacted since Previous Campaign")
-plt.ylabel("Number of Clients")
-plt.title("Distribution of Number of Days Passed since Client Was Last Contacted")
-plt.show()
+# plt.figure(figsize=(10,5))
+# sns.histplot(filteredDays, bins=15, kde=True)
+# plt.xlabel("Number of Days Passed Since Client was Last Contacted since Previous Campaign")
+# plt.ylabel("Number of Clients")
+# plt.title("Distribution of Number of Days Passed since Client Was Last Contacted")
+# plt.show()
+
+#And the next part
+# print(df['previous'].describe())
+# plt.figure(figsize=(10,5))
+# sns.histplot(df[df['previous'] != 0]['previous'], bins=30, kde=True)
+# plt.xlabel("Number of Times Contacted Last Time")
+# plt.ylabel("Number of Clients")
+# plt.title("Distribution of Number of Clients Contacted Last Time (Excluding 0)")
+# plt.show()
+
+#Previous Outcomes
+previousOutcomeBrackets = df['poutcome'].unique()
+#print(previousOutcomeBrackets)
+print('Previous Outcomes')
+for i in range(len(previousOutcomeBrackets)):
+    print(previousOutcomeBrackets[i]+' : '+str(df['poutcome'].value_counts().get(previousOutcomeBrackets[i])))
+#Next Part
+tdyes = df['y'].value_counts(normalize=True).get('yes')
+tdno = k = df['y'].value_counts(normalize=True).get('no')
+print('Percentage of people subscribing to a term deposit : ',tdyes)
+print('Percentage of people not subscribing to a term deposit : ',tdno)
+
+####Last Part
+print(df.columns)
+print(df.dtypes)
